@@ -2,6 +2,7 @@ package GUI;
 
 import Model.Comment;
 import Service.CommentManager;
+import Service.UserManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ public class CommentDialog extends JDialog {
         DefaultListModel<String> cmModel = new DefaultListModel<>();
         JList<String> cmList = new JList<>(cmModel);
         for (Comment c : comments) {
-            String who = c.getCommenterEmail() == null ? "" : c.getCommenterEmail();
+            String who = UserManager.getDisplayNameForEmail(c.getCommenterEmail());
             cmModel.addElement(who + ": " + c.getBody());
         }
         panel.add(new JScrollPane(cmList), BorderLayout.CENTER);
@@ -43,7 +44,7 @@ public class CommentDialog extends JDialog {
             Comment nc = new Comment(courseCode, materialTs, who, text, ts);
             boolean ok = manager.saveComment(nc);
             if (ok) {
-                cmModel.addElement(who + ": " + text);
+                cmModel.addElement(UserManager.getDisplayNameForEmail(who) + ": " + text);
                 input.setText("");
             } else {
                 JOptionPane.showMessageDialog(this, "Failed to save comment.");

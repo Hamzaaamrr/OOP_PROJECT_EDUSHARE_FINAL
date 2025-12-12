@@ -6,8 +6,13 @@ public class Student extends User {
 
     private ArrayList<String> enrolledCourses = new ArrayList<>();
 
+    public Student(String name, String email, String password) {
+        super(name, email, password, "Student");
+    }
+
+    // Backwards-compatible constructor
     public Student(String email, String password) {
-        super(email, password, "Student");
+        this("", email, password);
     }
 
     public ArrayList<String> getEnrolledCourses() {

@@ -2,6 +2,7 @@ package GUI;
 
 import Model.Material;
 import Service.CommentManager;
+import Service.UserManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,7 +87,7 @@ public class MaterialViewer {
         sp.setPreferredSize(new Dimension(480, 300));
         content.add(sp, BorderLayout.CENTER);
 
-        String header = m.getTitle() + "\n(Uploaded by: " + m.getUploaderEmail() + ")";
+        String header = m.getTitle() + "\n(Uploaded by: " + UserManager.getDisplayNameForEmail(m.getUploaderEmail()) + ")";
         JOptionPane.showMessageDialog(parent, content, header, JOptionPane.INFORMATION_MESSAGE);
     }
 }

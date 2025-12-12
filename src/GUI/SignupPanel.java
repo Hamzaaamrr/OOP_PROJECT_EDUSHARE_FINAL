@@ -7,6 +7,7 @@ import java.awt.*;
 public class SignupPanel extends JPanel {
 
     private MainFrame parent;
+    private JTextField nameField;
     private JTextField emailField;
     private JPasswordField passField;
     private JComboBox<String> roleBox;
@@ -48,18 +49,24 @@ public class SignupPanel extends JPanel {
         gbc.insets = new Insets(6,6,6,6);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0; gbc.gridy = 0;
+        form.add(new JLabel("Full Name"), gbc);
+        gbc.gridx = 1; gbc.weightx = 1.0;
+        nameField = new JTextField(22);
+        form.add(nameField, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
         form.add(new JLabel("Email"), gbc);
         gbc.gridx = 1; gbc.weightx = 1.0;
         emailField = new JTextField(22);
         form.add(emailField, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
         form.add(new JLabel("Password"), gbc);
         gbc.gridx = 1; gbc.weightx = 1.0;
         passField = new JPasswordField(22);
         form.add(passField, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0;
         form.add(new JLabel("Role"), gbc);
         gbc.gridx = 1; gbc.weightx = 1.0;
         roleBox = new JComboBox<>(new String[]{"Student","Professor"});
@@ -94,8 +101,9 @@ public class SignupPanel extends JPanel {
             String email = emailField.getText().trim();
             String pass = new String(passField.getPassword());
             String role = (String) roleBox.getSelectedItem();
+            String fullName = nameField.getText().trim();
 
-            boolean ok = parent.getUserManager().register(email, pass, role);
+            boolean ok = parent.getUserManager().register(fullName, email, pass, role);
             if (ok) {
                 JOptionPane.showMessageDialog(parent, "Account created successfully.");
                 parent.show(MainFrame.LOGIN);

@@ -25,8 +25,9 @@ public class UserManager {
         return false;
     }
 
-    public boolean register(String username, String password, String role) {
+    public boolean register(String name, String username, String password, String role) {
         // Basic validation
+        if (name == null) name = "";
         if (username == null || username.isEmpty() || password == null || password.isEmpty() || role == null || role.isEmpty()) {
             return false;
         }
@@ -40,10 +41,10 @@ public class UserManager {
 
         // Create new user as correct subclass
         if (role.equalsIgnoreCase("Student")) {
-            Student s = new Student(username, password);
+            Student s = new Student(name, username, password);
             users.add(s);
         } else if (role.equalsIgnoreCase("Professor")) {
-            Professor p = new Professor(username, password);
+            Professor p = new Professor(name, username, password);
             users.add(p);
         } else {
             // unsupported role
@@ -88,6 +89,22 @@ public class UserManager {
     // Logout the current user
     public void logout() {
         currentUser = null;
+    }
+
+    // Lookup display name by email (fallback to email if missing)
+    public static String getDisplayNameForEmail(String email) {
+        if (email == null || email.isEmpty()) return "";
+        ArrayList<User> all = FileHandling.read("users");
+        if (all != null) {
+            for (User u : all) {
+                if (u.getEmail() != null && u.getEmail().equalsIgnoreCase(email)) {
+                    String n = u.getName();
+                    if (n != null && !n.trim().isEmpty()) return n.trim();
+                    break;
+                }
+            }
+        }
+        return email;
     }
 
     

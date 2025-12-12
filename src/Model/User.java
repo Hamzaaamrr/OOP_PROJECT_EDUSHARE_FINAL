@@ -10,11 +10,16 @@ public abstract class User implements Serializable {
     protected String password;
     protected String role; //student or professor
 
-    public User(String email, String password, String role)
-    {
+    public User(String name, String email, String password, String role) {
+        this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    // Backwards-compatible: default name empty
+    public User(String email, String password, String role) {
+        this("", email, password, role);
     }
 
     
@@ -34,6 +39,12 @@ public abstract class User implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    // Prefer display name; fall back to email
+    public String getDisplayName() {
+        if (name != null && !name.trim().isEmpty()) return name.trim();
+        return email == null ? "" : email;
     }
 
     public void displayInfo(){

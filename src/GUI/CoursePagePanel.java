@@ -1,6 +1,7 @@
 package GUI;
 
 import Service.FileHandling;
+import Service.UserManager;
 import Model.Material;
 
 import javax.swing.*;
@@ -237,7 +238,7 @@ public class CoursePagePanel extends JPanel {
             DefaultListModel<String> cmModel = new DefaultListModel<>();
             JList<String> cmList = new JList<>(cmModel);
             for (Model.Comment c : comments) {
-                String who = c.getCommenterEmail() == null ? "" : c.getCommenterEmail();
+                String who = UserManager.getDisplayNameForEmail(c.getCommenterEmail());
                 cmModel.addElement(who + ": " + c.getBody());
             }
             panel.add(new JScrollPane(cmList), BorderLayout.CENTER);
@@ -263,13 +264,14 @@ public class CoursePagePanel extends JPanel {
                     JOptionPane.showMessageDialog(dialog, "Please enter a comment.");
                     return;
                 }
-                String who = "";
-                if (Service.UserManager.getCurrentUser() != null) who = Service.UserManager.getCurrentUser().getEmail();
+                String whoEmail = "";
+                if (Service.UserManager.getCurrentUser() != null) whoEmail = Service.UserManager.getCurrentUser().getEmail();
                 long ts = System.currentTimeMillis();
-                Model.Comment nc = new Model.Comment(m.getCourseCode(), m.getTimestamp(), who, text, ts);
+                Model.Comment nc = new Model.Comment(m.getCourseCode(), m.getTimestamp(), whoEmail, text, ts);
                 boolean ok = parent.getCommentManager().saveComment(nc);
                 if (ok) {
-                    cmModel.addElement(who + ": " + text);
+                    String whoDisplay = UserManager.getDisplayNameForEmail(whoEmail);
+                    cmModel.addElement(whoDisplay + ": " + text);
                     input.setText("");
                 } else {
                     JOptionPane.showMessageDialog(dialog, "Failed to save comment.");
@@ -296,7 +298,7 @@ public class CoursePagePanel extends JPanel {
                 }
                 materialListModel.clear();
                 for (Material m : materials) {
-                    String uploader = m.getUploaderEmail() == null ? "" : m.getUploaderEmail();
+                    String uploader = UserManager.getDisplayNameForEmail(m.getUploaderEmail());
                     String pinMark = m.isPinned() ? "[PINNED] " : "";
                     materialListModel.addElement(pinMark + m.getTitle() + "  (" + uploader + ")  " + formatTimestamp(m.getTimestamp()) + "  [score:" + m.getScore() + "]");
                 }
@@ -404,7 +406,7 @@ public class CoursePagePanel extends JPanel {
                 parent.getMaterialManager().sortByTimestamp(materials, false);
             }
             for (Material m : materials) {
-                String uploader = m.getUploaderEmail() == null ? "" : m.getUploaderEmail();
+                String uploader = UserManager.getDisplayNameForEmail(m.getUploaderEmail());
                 String pinMark = m.isPinned() ? "[PINNED] " : "";
                 materialListModel.addElement(pinMark + m.getTitle() + "  (" + uploader + ")  " + formatTimestamp(m.getTimestamp()) + "  [score:" + m.getScore() + "]");
             }

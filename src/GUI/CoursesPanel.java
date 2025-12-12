@@ -82,7 +82,8 @@ public class CoursesPanel extends JPanel {
         listModel.clear();
         courses = FileHandling.read("courses");
         for (Course c : courses) {
-            listModel.addElement(c.getCode() + " - " + c.getName() + " (" + c.getProfessorEmail() + ")");
+            String profName = Service.UserManager.getDisplayNameForEmail(c.getProfessorEmail());
+            listModel.addElement(c.getCode() + " - " + c.getName() + " (" + profName + ")");
         }
     }
 }
