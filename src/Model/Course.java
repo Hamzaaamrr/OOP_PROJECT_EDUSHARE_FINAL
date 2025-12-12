@@ -27,9 +27,5 @@ public class Course implements Serializable {
         return professorEmail;
     }
 
-    public void displayInfo(){
-        System.out.println("Course Name: " + name);
-        System.out.println("Course Code: " + code);
-        System.out.println("Professor Email: " + professorEmail);
-    }
+
 }

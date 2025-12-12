@@ -31,50 +31,109 @@ public class CoursePagePanel extends JPanel {
     }
 
     private void initialize() {
-        setLayout(new BorderLayout(8,8));
+        setLayout(new BorderLayout(12,12));
+        setBackground(new Color(249, 250, 251));
+        setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
         titleLabel = new JLabel("Course Page");
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 18f));
+        titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 24f));
+        titleLabel.setForeground(new Color(31, 41, 55));
         add(titleLabel, BorderLayout.NORTH);
 
         materialListModel = new DefaultListModel<>();
         materialList = new JList<>(materialListModel);
         materialList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        materialList.setFixedCellHeight(40);
+        materialList.setFixedCellHeight(56);
+        materialList.setBackground(Color.white);
+        materialList.setSelectionBackground(new Color(224, 231, 255));
+        materialList.setSelectionForeground(new Color(79, 70, 229));
 
         JScrollPane scroll = new JScrollPane(materialList);
-        JPanel centerWrap = new JPanel(new BorderLayout(6,6));
+        scroll.setBorder(BorderFactory.createLineBorder(new Color(229, 231, 235), 1));
+        JPanel centerWrap = new JPanel(new BorderLayout(0,10));
+        centerWrap.setOpaque(false);
         centerWrap.add(scroll, BorderLayout.CENTER);
 
-        JPanel topControls = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel topControls = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        topControls.setOpaque(false);
         JLabel sortLabel = new JLabel("Sort:");
+        sortLabel.setForeground(new Color(55, 65, 81));
+        sortLabel.setFont(sortLabel.getFont().deriveFont(Font.PLAIN, 13f));
         String[] options = new String[] {"Newest First", "Oldest First", "Most Upvoted", "Most Downvoted"};
         JComboBox<String> sortBox = new JComboBox<>(options);
         sortBox.setSelectedIndex(0);
+        sortBox.setBackground(Color.white);
+        sortBox.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(209, 213, 219), 1),
+            BorderFactory.createEmptyBorder(4,8,4,8)));
         topControls.add(sortLabel);
         topControls.add(sortBox);
         centerWrap.add(topControls, BorderLayout.NORTH);
 
         add(centerWrap, BorderLayout.CENTER);
 
-        JPanel buttons = new JPanel();
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        buttons.setOpaque(false);
+        
         addMaterialBtn = new JButton("Add Material");
-        deleteBtn = new JButton("Delete Material");
-        pinBtn = new JButton("Pin Material");
-        backBtn = new JButton("Back");
-        // hide professor-only controls by default
-        deleteBtn.setVisible(false);
-        pinBtn.setVisible(false);
-        // disable buttons until selection
-        deleteBtn.setEnabled(false);
-        pinBtn.setEnabled(false);
+        addMaterialBtn.setBackground(new Color(79, 70, 229));
+        addMaterialBtn.setForeground(Color.white);
+        addMaterialBtn.setFocusPainted(false);
+        addMaterialBtn.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        addMaterialBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
         upvoteBtn = new JButton("Upvote");
-        downvoteBtn = new JButton("Downvote");
-        commentsBtn = new JButton("Comments");
+        upvoteBtn.setBackground(new Color(16, 185, 129));
+        upvoteBtn.setForeground(Color.white);
+        upvoteBtn.setFocusPainted(false);
+        upvoteBtn.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
         upvoteBtn.setEnabled(false);
+        upvoteBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        downvoteBtn = new JButton("Downvote");
+        downvoteBtn.setBackground(new Color(239, 68, 68));
+        downvoteBtn.setForeground(Color.white);
+        downvoteBtn.setFocusPainted(false);
+        downvoteBtn.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
         downvoteBtn.setEnabled(false);
+        downvoteBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        commentsBtn = new JButton("Comments");
+        commentsBtn.setBackground(new Color(59, 130, 246));
+        commentsBtn.setForeground(Color.white);
+        commentsBtn.setFocusPainted(false);
+        commentsBtn.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
         commentsBtn.setEnabled(false);
+        commentsBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        deleteBtn = new JButton("Delete Material");
+        deleteBtn.setVisible(false);
+        deleteBtn.setEnabled(false);
+        deleteBtn.setBackground(new Color(220, 38, 38));
+        deleteBtn.setForeground(Color.white);
+        deleteBtn.setFocusPainted(false);
+        deleteBtn.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        deleteBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        pinBtn = new JButton("Pin Material");
+        pinBtn.setVisible(false);
+        pinBtn.setEnabled(false);
+        pinBtn.setBackground(new Color(245, 158, 11));
+        pinBtn.setForeground(Color.white);
+        pinBtn.setFocusPainted(false);
+        pinBtn.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        pinBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        backBtn = new JButton("Back");
+        backBtn.setBackground(Color.white);
+        backBtn.setForeground(new Color(107, 114, 128));
+        backBtn.setFocusPainted(false);
+        backBtn.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(209, 213, 219), 1),
+            BorderFactory.createEmptyBorder(7, 15, 7, 15)));
+        backBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
         buttons.add(addMaterialBtn);
         buttons.add(upvoteBtn);
         buttons.add(downvoteBtn);

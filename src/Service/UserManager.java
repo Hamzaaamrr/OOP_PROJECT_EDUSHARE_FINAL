@@ -11,6 +11,7 @@ public class UserManager {
 
     public UserManager(){
         this.users = FileHandling.read("users");
+        if (this.users == null) this.users = new ArrayList<>();
     }
 
     public boolean login(String user, String pass) {
@@ -45,8 +46,8 @@ public class UserManager {
             Professor p = new Professor(username, password);
             users.add(p);
         } else {
-            User newUser = new User(username, password, role);
-            users.add(newUser);
+            // unsupported role
+            return false;
         }
 
         // Save updated list

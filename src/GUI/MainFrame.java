@@ -71,8 +71,8 @@ public class MainFrame extends JFrame {
 
         cards = new CardLayout();
         container = new JPanel(cards);
-        container.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
-        container.setBackground(Color.decode("#f4f6f8"));
+        container.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        container.setBackground(new Color(249, 250, 251));
 
         loginPanel = new LoginPanel(this);
         signupPanel = new SignupPanel(this);

@@ -18,20 +18,29 @@ public class SignupPanel extends JPanel {
 
     private void initialize() {
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createEmptyBorder(24,24,24,24));
+        setBackground(new Color(240, 242, 245));
+        setBorder(BorderFactory.createEmptyBorder(40,40,40,40));
 
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBackground(Color.white);
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.decode("#e0e6ee")),
-                BorderFactory.createEmptyBorder(18,18,18,18)));
+                BorderFactory.createLineBorder(new Color(230, 230, 235), 1),
+                BorderFactory.createEmptyBorder(32,32,32,32)));
 
         JLabel title = new JLabel("Create Account");
-        title.setFont(title.getFont().deriveFont(Font.BOLD, 18f));
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 24f));
         title.setAlignmentX(CENTER_ALIGNMENT);
+        title.setForeground(new Color(79, 70, 229));
         card.add(title);
-        card.add(Box.createRigidArea(new Dimension(0,10)));
+        card.add(Box.createRigidArea(new Dimension(0,8)));
+        
+        JLabel subtitle = new JLabel("Join the EDUSHARE community");
+        subtitle.setFont(subtitle.getFont().deriveFont(Font.PLAIN, 13f));
+        subtitle.setAlignmentX(CENTER_ALIGNMENT);
+        subtitle.setForeground(new Color(107, 114, 128));
+        card.add(subtitle);
+        card.add(Box.createRigidArea(new Dimension(0,18)));
 
         JPanel form = new JPanel(new GridBagLayout());
         form.setOpaque(false);
@@ -62,9 +71,19 @@ public class SignupPanel extends JPanel {
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER, 12,0));
         buttons.setOpaque(false);
         JButton registerBtn = new JButton("Create Account");
-        registerBtn.setBackground(Color.decode("#22a06b"));
+        registerBtn.setBackground(new Color(16, 185, 129));
         registerBtn.setForeground(Color.white);
+        registerBtn.setFocusPainted(false);
+        registerBtn.setFont(registerBtn.getFont().deriveFont(Font.BOLD, 14f));
+        registerBtn.setBorder(BorderFactory.createEmptyBorder(12, 28, 12, 28));
+        registerBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         JButton backBtn = new JButton("Back to Login");
+        backBtn.setBackground(new Color(249, 250, 251));
+        backBtn.setForeground(new Color(107, 114, 128));
+        backBtn.setFocusPainted(false);
+        backBtn.setFont(backBtn.getFont().deriveFont(Font.PLAIN, 13f));
+        backBtn.setBorder(BorderFactory.createEmptyBorder(10, 24, 10, 24));
+        backBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         buttons.add(registerBtn);
         buttons.add(backBtn);
         card.add(buttons);
