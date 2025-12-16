@@ -27,10 +27,6 @@ public class Material implements Serializable {
 		this.filePaths = new ArrayList<>();
 	}
 
-	// Backwards-compatible constructor (no timestamp, no pinned)
-	public Material(String courseCode, String uploaderEmail, String title, String body) {
-		this(courseCode, uploaderEmail, title, body, 0L);
-	}
 
 	public ArrayList<String> getFilePaths() {
 		return filePaths;

@@ -17,13 +17,6 @@ public abstract class User implements Serializable {
         this.role = role;
     }
 
-    // Backwards-compatible: default name empty
-    public User(String email, String password, String role) {
-        this("", email, password, role);
-    }
-
-    
-
     //getters
     public String getName() {
         return name;

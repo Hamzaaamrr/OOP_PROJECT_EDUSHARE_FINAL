@@ -6,8 +6,4 @@ public class Professor extends User {
         super(name, email, password, "Professor");
     }
 
-    // Backwards-compatible constructor
-    public Professor(String email, String password) {
-        this("", email, password);
-    }
 }

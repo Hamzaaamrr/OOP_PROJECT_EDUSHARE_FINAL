@@ -19,7 +19,7 @@ public class FileHandling {
         KEY_MAP.put("materials", DATA_DIR + File.separator + "materials.ser");
         KEY_MAP.put("comments", DATA_DIR + File.separator + "comments.ser");
         KEY_MAP.put("votes", DATA_DIR + File.separator + "votes.ser");
-        KEY_MAP.put("enrollments", DATA_DIR + File.separator + "enrollments.ser");
+        
     }
 
     // PUBLIC API: single read that returns the deserialized object (or null if missing)
