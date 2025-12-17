@@ -102,6 +102,9 @@ public class SignupPanel extends JPanel {
             String pass = new String(passField.getPassword());
             String role = (String) roleBox.getSelectedItem();
             String fullName = nameField.getText().trim();
+            emailField.setText("");
+            passField.setText("");
+            nameField.setText("");
 
             boolean ok = parent.getUserManager().register(fullName, email, pass, role);
             if (ok) {

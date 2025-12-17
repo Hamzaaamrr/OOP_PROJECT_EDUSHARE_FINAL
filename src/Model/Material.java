@@ -35,11 +35,7 @@ public class Material implements Serializable {
 	public void setFilePaths(ArrayList<String> filePaths) {
 		this.filePaths = filePaths == null ? new ArrayList<>() : filePaths;
 	}
-
-	public void addFilePath(String path) {
-		if (this.filePaths == null) this.filePaths = new ArrayList<>();
-		this.filePaths.add(path);
-	}
+	
 
 	public String getCourseCode() {
 		return courseCode;

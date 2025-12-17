@@ -1,6 +1,6 @@
 package Service;
 
-import Model.Material;
+import Model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,9 +34,9 @@ public class MaterialManager {
 
     public void sortByTimestamp(ArrayList<Material> list, boolean ascending) {
         if (list == null) return;
-        Comparator<Material> cmp = new Comparator<Material>() {
+        Comparator<Material> cmp = new Comparator<Material>() { //override compare method to include pinned logic and sort by timestamp
             @Override
-            public int compare(Material a, Material b) {
+            public int compare(Material a, Material b) { //-1 if a<b, 1 if a>b, 0 if equal 
                 // pinned items come first
                 if (a.isPinned() && !b.isPinned()) return -1;
                 if (!a.isPinned() && b.isPinned()) return 1;
@@ -45,10 +45,10 @@ public class MaterialManager {
                 return ascending ? cmpTs : -cmpTs;
             }
         };
-        Collections.sort(list, cmp);
+        Collections.sort(list, cmp); //sorts list based on comparator logic
     }
 
-    public void sortByScore(ArrayList<Material> list, boolean descending) {
+    public void sortByScore(ArrayList<Material> list, boolean descending) { 
         if (list == null) return;
         Comparator<Material> cmp = new Comparator<Material>() {
             @Override
@@ -57,10 +57,10 @@ public class MaterialManager {
                 if (a.isPinned() && !b.isPinned()) return -1;
                 if (!a.isPinned() && b.isPinned()) return 1;
                 int cmpScore = Integer.compare(a.getScore(), b.getScore());
-                return descending ? -cmpScore : cmpScore;
+                return descending ? -cmpScore : cmpScore; 
             }
         };
-        Collections.sort(list, cmp);
+        Collections.sort(list, cmp); 
     }
 
     public boolean deleteMaterial(Material toDelete) {
@@ -99,16 +99,17 @@ public class MaterialManager {
 
     public boolean voteMaterial(Material toVote, int voteValue, String voterEmail) {
         if (toVote == null || voterEmail == null || voterEmail.isEmpty()) return false;
-        ArrayList<Model.Vote> votes = FileHandling.read("votes");
+        ArrayList<Vote> votes = FileHandling.read("votes");
         if (votes == null) votes = new ArrayList<>();
-        boolean found = false;
-        int oldValue = 0;
-        int foundIndex = -1;
+
+        boolean found = false; //if the voter has already voted on this material
+        int oldValue = 0; //previous vote value by this voter on this material
+        int foundIndex = -1; //index of existing vote in list
         for (int i = 0; i < votes.size(); i++) {
-            Model.Vote v = votes.get(i);
+            Vote v = votes.get(i);
             if (v.getCourseCode() != null && v.getCourseCode().equalsIgnoreCase(toVote.getCourseCode())
                     && v.getMaterialTimestamp() == toVote.getTimestamp()
-                    && v.getVoterEmail() != null && v.getVoterEmail().equalsIgnoreCase(voterEmail)) {
+                    && v.getVoterEmail() != null && v.getVoterEmail().equalsIgnoreCase(voterEmail)) { //ensures only one vote per user per material
                 found = true;
                 oldValue = v.getValue();
                 foundIndex = i;
@@ -116,22 +117,22 @@ public class MaterialManager {
             }
         }
 
-        boolean ok = false;
-        int delta = 0;
+        boolean ok = false; 
+        int delta = 0; //how much to adjust material score by
         if (found) {
             if (oldValue == voteValue) {
                 // toggle off (unvote): remove this vote
                 votes.remove(foundIndex);
-                delta = -oldValue; // remove previous contribution
+                delta = -oldValue; // remove previous contribution, vote change by oldValue (+1 or -1)
             } else {
-                // change vote
+                // change vote from upvote to downvote or vice versa
                 votes.get(foundIndex).setValue(voteValue);
-                delta = voteValue - oldValue;
+                delta = voteValue - oldValue; // adjust by difference (+2 or -2)
             }
             ok = FileHandling.write("votes", votes);
         } else {
             // new vote
-            Model.Vote nv = new Model.Vote(toVote.getCourseCode(), toVote.getTimestamp(), voterEmail, voteValue);
+            Vote nv = new Vote(toVote.getCourseCode(), toVote.getTimestamp(), voterEmail, voteValue);
             votes.add(nv);
             ok = FileHandling.write("votes", votes);
             if (ok) delta = voteValue;
@@ -154,7 +155,7 @@ public class MaterialManager {
         return true;
     }
 
-    private boolean matchesMaterial(Material a, Material b) {
+    private boolean matchesMaterial(Material a, Material b) { // checks if two materials are the same
         if (a == null || b == null) return false;
         // match by timestamp if present, otherwise by uploader+title+body
         if (a.getTimestamp() != 0 && b.getTimestamp() != 0) {
@@ -166,7 +167,7 @@ public class MaterialManager {
                 && safeEquals(a.getCourseCode(), b.getCourseCode());
     }
 
-    private boolean safeEquals(String s1, String s2) {
+    private boolean safeEquals(String s1, String s2) { //null-safe string equality check, FIXES SOME ERRORS THAT HAPPENED
         if (s1 == null && s2 == null) return true;
         if (s1 == null || s2 == null) return false;
         return s1.equals(s2);

@@ -10,10 +10,6 @@ public class Student extends User {
         super(name, email, password, "Student");
     }
 
-    // Backwards-compatible constructor
-    public Student(String email, String password) {
-        this("", email, password);
-    }
 
     public ArrayList<String> getEnrolledCourses() {
         return enrolledCourses;

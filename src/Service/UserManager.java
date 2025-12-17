@@ -91,7 +91,7 @@ public class UserManager {
         currentUser = null;
     }
 
-    // Lookup display name by email (fallback to email if missing)
+    // Lookup display name by email (fallback to email if missing), Made this because i forgot to add name to user before.
     public static String getDisplayNameForEmail(String email) {
         if (email == null || email.isEmpty()) return "";
         ArrayList<User> all = FileHandling.read("users");

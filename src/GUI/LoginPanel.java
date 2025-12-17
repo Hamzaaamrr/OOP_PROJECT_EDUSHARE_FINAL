@@ -92,6 +92,8 @@ public class LoginPanel extends JPanel {
         loginBtn.addActionListener(e -> {
             String email = emailField.getText().trim();
             String pass = new String(passField.getPassword());
+            emailField.setText("");
+            passField.setText("");
             boolean ok = parent.getUserManager().login(email, pass);
                 if (ok) {
                     User u = UserManager.getCurrentUser();

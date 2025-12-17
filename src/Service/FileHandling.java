@@ -22,21 +22,21 @@ public class FileHandling {
         
     }
 
-    // PUBLIC API: single read that returns the deserialized object (or null if missing)
+    //single generic read that returns the deserialized object (or null if missing)
     @SuppressWarnings("unchecked")
     public static <T> T read(String key) {
         String path = KEY_MAP.get(key);
         if (path == null) return null;
         File f = new File(path);
         if (!f.exists()) {
-            // Return empty collections for known list-like keys to avoid NPEs in callers
+            // Return empty collections for known list-like keys to avoid NullPointerExceptions 
             if ("users".equals(key) || "courses".equals(key) || "materials".equals(key)
                     || "comments".equals(key) || "votes".equals(key) || "enrollments".equals(key)) {
                 return (T) new java.util.ArrayList<>();
             }
             return null;
         }
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))) { //open file input stream and wrap it in object input stream to read objects
             Object obj = ois.readObject();
             return (T) obj;
         } catch (Exception e) {
@@ -46,14 +46,14 @@ public class FileHandling {
         }
     }
 
-    // PUBLIC API: single write that serializes the provided object to disk (overwrites existing)
+    //single write that serializes the provided object to disk (overwrites existing)
     public static boolean write(String key, Object obj) {
         String path = KEY_MAP.get(key);
         if (path == null) return false;
         try {
             File dataDir = new File(DATA_DIR);
             if (!dataDir.exists()) dataDir.mkdirs();
-            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path))) {
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path))) { //open file output stream and wrap it in object output stream to write objects
                 oos.writeObject(obj);
             }
             return true;
